@@ -1,1 +1,22 @@
+spring:
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: create
+  datasource:
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/redis-postgres-caching
+    driverClassName: org.postgresql.Driver
 
+
+    data:
+      redis:
+        host: localhost
+        port: 6379
+
+
+
+  cache:
+    type: redis
+    cache-names: redis-cache
