@@ -5,6 +5,8 @@ import ru.isshepelev.redispostgrescaching.dto.CreateUserDto;
 import ru.isshepelev.redispostgrescaching.dto.UpdateUserDto;
 import ru.isshepelev.redispostgrescaching.model.User;
 
+import java.util.List;
+
 public interface UserService {
     User getUser(Long id);
 
@@ -13,4 +15,7 @@ public interface UserService {
     void deleteUser(Long id);
 
     User updateUser(UpdateUserDto updateUserDto, Long id);
+
+    List<User> getAllUsers();
+
 }

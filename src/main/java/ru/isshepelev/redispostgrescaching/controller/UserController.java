@@ -8,11 +8,17 @@ import ru.isshepelev.redispostgrescaching.dto.UpdateUserDto;
 import ru.isshepelev.redispostgrescaching.model.User;
 import ru.isshepelev.redispostgrescaching.service.UserService;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 
+    @GetMapping("/users")
+    public List<User> getUsers(){
+        return userService.getAllUsers();
+    }
     @GetMapping("/user/{id}")
     public User getUser(@PathVariable Long id){
         return userService.getUser(id);

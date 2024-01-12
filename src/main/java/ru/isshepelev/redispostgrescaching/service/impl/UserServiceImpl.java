@@ -13,6 +13,7 @@ import ru.isshepelev.redispostgrescaching.model.User;
 import ru.isshepelev.redispostgrescaching.repository.UserRepository;
 import ru.isshepelev.redispostgrescaching.service.UserService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,9 +36,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @SneakyThrows
+    @Override
+    @Cacheable("users")    // тяп ляп сделал кэширование листа, потом переделаю
+    public List<User> getAllUsers() {
+
+        Thread.sleep(2000);
+
+        return userRepository.findAll();
+    }
+
+    @SneakyThrows
     @Caching(put = {
             @CachePut(value = "UserService::getUser", key = "#result.id")
-    })
+    }, evict = {@CacheEvict(value = "users", allEntries = true)})
     @Override
     public User createUser(CreateUserDto createUserDto) {
 
@@ -54,7 +65,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Caching(put = {
             @CachePut(value = "UserService::getUser", key = "#result.id")
-    })
+    }, evict = {@CacheEvict(value = "users", allEntries = true)})
     public User updateUser(UpdateUserDto updateUserDto, Long id) {
 
         Thread.sleep(2000);
@@ -73,7 +84,8 @@ public class UserServiceImpl implements UserService {
     @SneakyThrows
     @Override
     @Caching(evict = {
-            @CacheEvict(value = "UserService::getUser", key = "#id")
+            @CacheEvict(value = "UserService::getUser", key = "#id"),
+            @CacheEvict(value = "users", allEntries = true)
     })
     public void deleteUser(Long id) {
 
