@@ -20,6 +20,8 @@ public class User implements Serializable {
     private String lastname;
     private String email;
 
-//    private List<Task> taskList = new ArrayList<>();
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
+    private List<Task> taskList = new ArrayList<>();
 
+    //    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 }

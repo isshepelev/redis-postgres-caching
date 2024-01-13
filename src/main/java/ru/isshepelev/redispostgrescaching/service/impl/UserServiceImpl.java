@@ -97,5 +97,14 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
-
+    @Override
+    @Caching(evict = {
+            @CacheEvict(value = "UserService::getUser", key = "#user.id"),
+            @CacheEvict(value = "users", allEntries = true)
+    }, put = {
+            @CachePut(value = "UserService::getUser", key = "#user.id")
+    })
+    public void saveTaskForUser(User user){
+        userRepository.save(user);
+    }
 }
