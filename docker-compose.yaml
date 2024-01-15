@@ -1,0 +1,28 @@
+version: '3'
+
+volumes:
+  cache:
+    driver: local
+
+services:
+  postgres:
+    image: postgres:15.4
+    container_name: postgres
+    restart: always
+    volumes:
+      - .volumes/pg_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: redis-postgres-caching
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7.2.4
+    container_name: cache
+    restart: always
+    volumes:
+      - cache:/data
+    ports:
+      - "6379:6379"
